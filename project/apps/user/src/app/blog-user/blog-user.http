@@ -1,0 +1,2 @@
+# Get user by ID
+GET http://localhost:3333/api/blog-user/1bf347e7-3673-4e43-a6cc-deed93bfd0ba HTTP/1.1

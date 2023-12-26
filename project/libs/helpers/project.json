@@ -1,0 +1,16 @@
+{
+  "name": "libs/helpers",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/helpers/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/helpers/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
