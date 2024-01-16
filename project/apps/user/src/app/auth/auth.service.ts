@@ -48,7 +48,7 @@ export class AuthService {
       .setPassword(newPassword)
 
     return this.blogUserRepository
-      .create(userEntity);
+      .save(userEntity);
   }
 
   public async verifyUser(dto: LoginUserDto) {
@@ -63,7 +63,8 @@ export class AuthService {
   }
 
   private async changePassword(user: BlogUserEntity, newPassword: string): Promise<BlogUserEntity>{
-    return user.setPassword(newPassword);
+    const newPwdUser = await user.setPassword(newPassword);
+    return this.blogUserRepository.update(newPwdUser.id, newPwdUser);
   }
 
   public async changeUserPassword(dto: ChangePasswordDto) {

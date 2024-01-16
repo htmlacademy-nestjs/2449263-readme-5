@@ -9,7 +9,7 @@ export abstract class BaseMemoryRepository<T extends Entity<EntityIdType>> imple
     return this.entities.get(id) || null;
   }
 
-  public async create(entity: T): Promise<T> {
+  public async save(entity: T): Promise<T> {
     if (!entity.id) {
       entity.id = randomUUID();
     }
