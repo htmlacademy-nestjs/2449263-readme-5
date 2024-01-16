@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { fillDto } from '@project/libs/helpers';
-import { UserRdo } from './rdo/user.rdo';
+import { UserRdo } from '../rdo/user.rdo';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -47,21 +47,18 @@ export class AuthController {
     return fillDto(LoggedUserRdo, verifiedUser.toPOJO());
   }
 
-
-
+  @ApiResponse({
+    type: LoggedUserRdo,
+    status: HttpStatus.OK,
+    description: 'User password has been successfully changed'
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Invalid password or username',
+  })
   @Post('changepwd')
   public async changepwd(@Body() dto: ChangePasswordDto) {
     const verifiedUser = await this.authService.changeUserPassword(dto);
     return fillDto(LoggedUserRdo, verifiedUser.toPOJO());
   }
-  // @ApiResponse({
-  //   type: UserRdo,
-  //   status: HttpStatus.OK,
-  //   description: 'User found'
-  // })
-  // @Get(':id')
-  // public async show(@Param('id') id: string) {
-  //   const existUser = await this.authService.getUser(id);
-  //   return fillDto(UserRdo, existUser.toPOJO());
-  // }
 }

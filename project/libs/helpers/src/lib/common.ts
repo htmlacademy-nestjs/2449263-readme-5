@@ -24,3 +24,15 @@ export function fillDto<T, V extends PlainObject>(
       ...options,
   });
 }
+
+type MongoConnectionString = {
+  username: string;
+  password: string;
+  host: string;
+  port: string;
+  databaseName: string;
+  authDatabase: string;
+};
+export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase} : MongoConnectionString): string {
+  return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
+}
