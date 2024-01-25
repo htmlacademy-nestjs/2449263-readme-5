@@ -15,13 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@project/libs/blog/models": ["libs/blog/models/src/index.ts"],
       "@project/libs/config/user": ["libs/config/user/src/index.ts"],
       "@project/libs/core": ["libs/core/src/index.ts"],
       "@project/libs/helpers": ["libs/helpers/src/index.ts"],
       "@project/libs/types": ["libs/types/src/index.ts"]
     },
     "strict": true,
-    "strictPropertyInitialization": false,
+    "strictPropertyInitialization": false
   },
   "exclude": ["node_modules", "tmp"]
 }

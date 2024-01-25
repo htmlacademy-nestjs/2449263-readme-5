@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  blog.postgres:
+    image: postgres:14-alpine
+    container_name: blog.postgres
+    env_file: blog.env
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres.blog:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d {POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - blog
+
+  blog.pgadmin:
+    image: dpage/pgadmin4
+    container_name: blog.pgadmin
+    env_file: blog.env
+    environment:
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - 8082:80
+    depends_on:
+      - blog.postgres
+    networks:
+      - blog
+
+volumes:
+  postgres.blog:
+networks:
+  blog:
+      driver: bridge

@@ -50,7 +50,7 @@ export abstract class BaseMongoRepository<
     return entity;
   }
 
-  public async remove(id: EntityType['id']): Promise<void> {
+  public async deleteById(id: EntityType['id']): Promise<void> {
     const deletedDocument = await this.model.findByIdAndDelete(id).exec();
     if (! deletedDocument) {
       throw new NotFoundException(`Entity with id ${id} not found.`);

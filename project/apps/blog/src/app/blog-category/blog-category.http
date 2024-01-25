@@ -1,0 +1,38 @@
+# Get all categories
+GET http://localhost:3000/api/categories HTTP/1.1
+
+###
+
+# Get category by Id
+
+GET http://localhost:3000/api/categories/d67e1e52-c3cd-461f-9547-ab88794a9e1f HTTP/1.1
+
+###
+
+# Create a new category
+
+POST http://localhost:3000/api/categories HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Category 3"
+}
+
+###
+
+# Delete a category by id
+
+DELETE http://localhost:3000/api/categories/d67e1e52-c3cd-461f-9547-ab88794a9e1f HTTP/1.1
+
+###
+
+# Update a category by id
+
+PATCH http://localhost:3000/api/categories/f971990c-953a-4e51-9035-ccd4af18c92b HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "This is new title"
+}
+
+###
