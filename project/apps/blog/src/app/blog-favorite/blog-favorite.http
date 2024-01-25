@@ -1,0 +1,24 @@
+# Get favorites for post 1
+GET http://localhost:3000/api/posts/df52ebbf-9e34-41c9-a583-9589c6bde284/favorites HTTP/1.1
+
+###
+
+# Get favorites for post 4
+GET http://localhost:3000/api/posts/3a54f901-8200-4525-9462-1868f427d94f/favorites HTTP/1.1
+
+###
+
+# Add post 4 to user2 favorites
+POST http://localhost:3000/api/posts/3a54f901-8200-4525-9462-1868f427d94f/favorites/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId": "65b0b7a0ea0f2f02a1127852"
+}
+
+###
+
+# Revoke post 4 from favorites
+DELETE http://localhost:3000/api/posts/3a54f901-8200-4525-9462-1868f427d94f/favorites/f8779985-d82f-42f4-b9fa-f2e4e2e26d6d HTTP/1.1
+
+###

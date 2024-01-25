@@ -1,0 +1,20 @@
+# Get all comments for post 2
+GET http://localhost:3000/api/posts/70bc4eaf-eba7-49f7-95c7-e215f5a6de79/comments HTTP/1.1
+
+###
+
+# Get all comments for post 1
+GET http://localhost:3000/api/posts/df52ebbf-9e34-41c9-a583-9589c6bde284/comments HTTP/1.1
+
+###
+
+# Create a new comment for post
+POST http://localhost:3000/api/posts/df52ebbf-9e34-41c9-a583-9589c6bde284/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "message": "New comment",
+  "userId": "65b0b7a0ea0f2f02a1127852"
+}
+
+###
