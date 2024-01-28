@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  user.mongo.db:
+    container_name: user.mongo.db
+    image: mongo:4.4
+    restart: always
+    env_file: user.env
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo.user:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/user --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  user.mongo.ui:
+    container_name: user.mongo.ui
+    image: mongo-express
+    restart: always
+    env_file: user.env
+    ports:
+      - 8081:8081
+
+volumes:
+  mongo.user:

@@ -1,12 +1,13 @@
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { AUTH_USER_INVALID_EMAIL } from '../auth.constant'
 
 export class ChangePasswordDto {
   @ApiProperty({
     description: 'Email: user identifier',
     example: 'user@local.local'
   })
-  @IsEmail()
+  @IsEmail({}, { message: AUTH_USER_INVALID_EMAIL })
   public email: string = "";
 
   @ApiProperty({

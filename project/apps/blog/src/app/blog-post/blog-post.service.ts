@@ -4,7 +4,10 @@ import { BlogPostRepository } from './blog-post.repository';
 import { CreatePostDto } from './dto/create-post.dto';
 import { BlogPostEntity } from './blog-post.entity';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { BlogPostQuery } from './query/blog-post.query';
+import { PaginationResult } from '@project/libs/types';
 import { BlogCategoryService } from '../blog-category/blog-category.service';
+
 
 @Injectable()
 export class BlogPostService {
@@ -13,8 +16,8 @@ export class BlogPostService {
     private readonly blogCategoryService: BlogCategoryService,
   ) {}
 
-  public async getAllPosts(): Promise<BlogPostEntity[]> {
-    return this.blogPostRepository.find();
+  public async getAllPosts(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
+    return this.blogPostRepository.find(query);
   }
 
   public async createPost(dto: CreatePostDto): Promise<BlogPostEntity> {

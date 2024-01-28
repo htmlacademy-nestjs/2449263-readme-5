@@ -42,3 +42,6 @@ Thumbs.db
 
 # Environments
 *.env
+
+# Upload folder
+**/uploads/*
