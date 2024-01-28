@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  file-storage.mongo.db:
+    container_name: file-storage.mongo.db
+    image: mongo:4.4
+    command: mongod --port 27018
+    restart: always
+    env_file: file-storage.env
+    ports:
+      - 27018:27018
+    volumes:
+      - mongo.file-storage:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27018/file-storage --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  file-storage.mongo.ui:
+    container_name: file-storage.mongo.ui
+    image: mongo-express
+    restart: always
+    env_file: file-storage.env
+    ports:
+      - 8083:8081
+    depends_on: 
+      - file-storage.mongo.db
+
+volumes:
+  mongo.file-storage:

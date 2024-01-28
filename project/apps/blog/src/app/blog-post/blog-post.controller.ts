@@ -8,7 +8,8 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { fillDto } from '@project/libs/helpers';
 import { BlogPostRdo } from './rdo/blog-post.rdo';
 import { BlogPostService } from './blog-post.service';
-
+import { BlogPostQuery } from './query/blog-post.query';
+import { BlogPostWithPaginationRdo } from './rdo/blog-post-with-pagination.rdo';
 
 @Controller('posts')
 export class BlogPostController {
@@ -23,9 +24,13 @@ export class BlogPostController {
   }
 
   @Get('/')
-  public async index() {
-    const result = await this.blogPostService.getAllPosts();
-    return fillDto(BlogPostRdo, result);
+  public async index(@Query() query: BlogPostQuery) {
+    const postsWithPagination = await this.blogPostService.getAllPosts(query);
+    const result = {
+      ...postsWithPagination,
+      entities: postsWithPagination.entities.map((post) => post.toPOJO()),
+    }
+    return fillDto(BlogPostWithPaginationRdo, result);
   }
 
   @Post('/')

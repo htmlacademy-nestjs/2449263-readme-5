@@ -17,8 +17,7 @@ export class LoggedUserRdo {
   public email: string = "";
 
   @ApiProperty({
-    description: 'Access token',
-    example: 'user@user.local'
+    description: 'JWT access token'
   })
   @Expose()
   public accessToken: string = "";

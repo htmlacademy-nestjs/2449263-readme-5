@@ -1,0 +1,1 @@
+export const BAD_MONGO_ID_ERROR = 'Bad entity ID';

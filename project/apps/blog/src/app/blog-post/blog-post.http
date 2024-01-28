@@ -1,5 +1,5 @@
 # Get all posts
-GET http://localhost:3000/api/posts HTTP/1.1
+GET http://localhost:3000/api/posts?limit=2&sortDirection=desc&categories[]=f971990c-953a-4e51-9035-ccd4af18c92b&page=1 HTTP/1.1
 
 ###
 

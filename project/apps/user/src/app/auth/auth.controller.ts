@@ -1,10 +1,10 @@
 import { 
   Controller, 
-  Get, 
   Post, 
   Body, 
   Param, 
-  HttpStatus
+  HttpStatus,
+  UseGuards
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,6 +14,8 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
+
+
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -44,7 +46,9 @@ export class AuthController {
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
-    return fillDto(LoggedUserRdo, verifiedUser.toPOJO());
+    const userToken = await this.authService.createUserToken(verifiedUser);
+
+    return fillDto(LoggedUserRdo, { ...verifiedUser.toPOJO(), ...userToken });
   }
 
   @ApiResponse({
