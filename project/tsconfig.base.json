@@ -19,6 +19,7 @@
       "@project/libs/config/file-storage": [
         "libs/config/file-storage/src/index.ts"
       ],
+      "@project/libs/config/notifier": ["libs/config/notifier/src/index.ts"],
       "@project/libs/config/user": ["libs/config/user/src/index.ts"],
       "@project/libs/core": ["libs/core/src/index.ts"],
       "@project/libs/helpers": ["libs/helpers/src/index.ts"],
