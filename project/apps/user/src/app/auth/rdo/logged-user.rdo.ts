@@ -21,4 +21,10 @@ export class LoggedUserRdo {
   })
   @Expose()
   public accessToken: string = "";
+
+  @ApiProperty({
+    description: 'JWT refresh token',
+  })
+  @Expose()
+  public refreshToken: string;
 }
