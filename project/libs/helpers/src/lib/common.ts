@@ -35,3 +35,13 @@ type MongoConnectionString = {
 export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase} : MongoConnectionString): string {
   return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }
+
+type RabbitMQConnectionString = {
+  user: string;
+  password: string;
+  host: string;
+  port: string;
+}
+export function getRabbitMQConnectionString({user, password, host, port} : RabbitMQConnectionString): string {
+  return `amqp://${user}:${password}@${host}:${port}`;
+}

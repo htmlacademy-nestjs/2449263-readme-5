@@ -14,6 +14,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { LoggedUserRdo } from './rdo/logged-user.rdo';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { NotificationService } from '../notification/notification.service';
 
 
 
@@ -21,7 +22,8 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   @ApiResponse({
@@ -31,6 +33,9 @@ export class AuthController {
   @Post('register')
   public async create(@Body() dto: CreateUserDto) {
     const newUser = await this.authService.register(dto);
+    const { email, firstname, lastname } = newUser;
+    await this.notificationService.registerSubscriber({ email, firstname, lastname });
+
     return fillDto(UserRdo, newUser.toPOJO());
   }
 

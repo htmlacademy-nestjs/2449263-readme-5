@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  notifier.fakesmtp:
+    image: gessnerfl/fake-smtp-server:2.2.0
+    container_name: "notifier.fakesmtp"
+    ports:
+      - "8025:8025"
+      - "1083:8080"
+  notifier.rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: notifier.rabbitmq
+    ports:
+      - "1088:15672"
+      - "5672:5672"
+    env_file: notifier.env
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  notifier.mongo.db:
+    container_name: notifier.mongo.db
+    image: mongo:4.4
+    command: mongod --port 27019
+    restart: always
+    env_file: notifier.env
+    ports:
+      - 27019:27019
+    volumes:
+      - mongo.notifier:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27019/notifier --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  notifier.mongo.ui:
+    container_name: notifier.mongo.ui
+    image: mongo-express
+    restart: always
+    env_file: notifier.env
+    ports:
+      - 8084:8081
+    depends_on: 
+      - notifier.mongo.db
+
+volumes:
+  mongo.notifier:
