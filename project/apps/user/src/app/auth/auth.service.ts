@@ -1,10 +1,11 @@
 import { 
   ConflictException, 
-  Injectable, 
-  UnauthorizedException, HttpException, HttpStatus,
+  Injectable, Inject,
+  UnauthorizedException, HttpException, HttpStatus, NotFoundException,
   Logger
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
 import { BlogUserRepository } from '../blog-user/blog-user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -16,7 +17,7 @@ import {
   AUTH_ERR_INVALID_PASSWORD_OR_USERNAME,
 } from './auth.constant';
 import { genRandomPassword } from '@project/libs/helpers';
-
+import { jwtConfig } from '@project/libs/config/user';
 
 
 @Injectable()
@@ -25,6 +26,7 @@ export class AuthService {
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
     private readonly jwtService: JwtService,
+    @Inject (jwtConfig.KEY) private readonly jwtOptions: ConfigType<typeof jwtConfig>,
   ) {}
 
   public async register(dto: CreateUserDto) {
@@ -78,6 +80,16 @@ export class AuthService {
     return await this.changePassword(existUser, dto.newPassword);
   }
 
+  public async getUserByEmail(email: string) {
+    const existUser = await this.blogUserRepository.findByEmail(email);
+
+    if (! existUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+
+    return existUser;
+  }
+
   public async createUserToken(user: User): Promise<Token | undefined> {
     const payload: TokenPayload = {
       sub: user.id!,
@@ -88,7 +100,12 @@ export class AuthService {
 
     try {
       const accessToken = await this.jwtService.signAsync(payload);
-      return { accessToken };
+      const refreshToken = await this.jwtService.signAsync(payload, {
+        secret: this.jwtOptions.refreshTokenSecret,
+        expiresIn: this.jwtOptions.refreshTokenExpiresIn
+      });
+
+      return { accessToken, refreshToken };
     } catch (error) {
       if (error instanceof Error) {
         this.logger.error('[Token generation error]: ' + error.message);
