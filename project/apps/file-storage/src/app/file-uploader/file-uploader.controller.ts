@@ -4,7 +4,7 @@ import { Controller, Post, Get, Param, UploadedFile, UseInterceptors } from '@ne
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { FileUploaderService } from './file-uploader.service';
-import { MongoIdValidationPipe } from '@project/libs/core';
+import { MongoIdValidationPipe, FilePictureValidationPipe } from '@project/libs/core';
 import { UploadedFileRdo } from './rdo/file-uploaded.rdo';
 import { fillDto } from '@project/libs/helpers';
 
@@ -17,7 +17,7 @@ export class FileUploaderController {
 
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
-  public async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  public async uploadFile(@UploadedFile(FilePictureValidationPipe) file: Express.Multer.File) {
     const fileEntity = await this.fileUploaderService.saveFile(file);
     return fillDto(UploadedFileRdo, fileEntity.toPOJO());
   }

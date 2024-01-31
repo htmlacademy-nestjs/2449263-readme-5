@@ -6,7 +6,7 @@ import { PrismaClientService } from '@project/libs/blog/models';
 import { BasePostgresRepository } from '@project/libs/core';
 import { BlogPostEntity } from './blog-post.entity';
 import { BlogPostQuery } from './query/blog-post.query';
-import { DEFAULT_PAGE_COUNT, DEFAULT_POST_COUNT_LIMIT } from './blog-post.constant';
+import { DEFAULT_POST_COUNT_LIMIT } from './blog-post.constant';
 
 @Injectable()
 export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {

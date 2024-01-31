@@ -1,6 +1,10 @@
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { AUTH_USER_INVALID_EMAIL } from '../auth.constant'
+import { 
+  AUTH_USER_INVALID_EMAIL, 
+  AUTH_PASSWORD_LENGTH_MIN, 
+  AUTH_PASSWORD_LENGTH_MAX 
+} from '../auth.constant'
 
 export class ChangePasswordDto {
   @ApiProperty({
@@ -21,8 +25,9 @@ export class ChangePasswordDto {
     description: 'New password',
     example: '123456'
   })
-  @Length(6, 12, {
-    message: 'New password length must be between 6 and 12 charcters',
+  @Length(AUTH_PASSWORD_LENGTH_MIN, AUTH_PASSWORD_LENGTH_MAX, {
+    message: 'New password length must be between ' + AUTH_PASSWORD_LENGTH_MIN + ' and ' +
+    AUTH_PASSWORD_LENGTH_MAX + ' charcters',
   })
   public newPassword: string = "";
 }
